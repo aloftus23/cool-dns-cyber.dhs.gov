@@ -182,7 +182,7 @@ resource "aws_route53_record" "crossfeed_staging_cd_A" {
   provider = aws.route53resourcechange
 
   alias {
-    name                   = "d-0yk2b6imci.execute-api.us-east-1.amazonaws.com."
+    name                   = "d-6duqftvveb.execute-api.us-east-1.amazonaws.com."
     evaluate_target_health = false
     zone_id                = var.api_gateway_zone_id
   }
@@ -195,7 +195,7 @@ resource "aws_route53_record" "crossfeed_staging_cd_AAAA" {
   provider = aws.route53resourcechange
 
   alias {
-    name                   = "d-0yk2b6imci.execute-api.us-east-1.amazonaws.com."
+    name                   = "d-6duqftvveb.execute-api.us-east-1.amazonaws.com."
     evaluate_target_health = false
     zone_id                = var.api_gateway_zone_id
   }
@@ -308,6 +308,117 @@ resource "aws_route53_record" "crossfeed_staging_acme_TXT" {
 }
 
 # ------------------------------------------------------------------------------
+# Integration entries
+# ------------------------------------------------------------------------------
+
+resource "aws_route53_record" "crossfeed_integration_A" {
+  provider = aws.route53resourcechange
+
+  alias {
+    name                   = "d-sl8v3ffkci.execute-api.us-east-1.amazonaws.com."
+    evaluate_target_health = false
+    zone_id                = var.api_gateway_zone_id
+  }
+  name    = "integration.crossfeed.${aws_route53_zone.cyber_dhs_gov.name}"
+  type    = "A"
+  zone_id = aws_route53_zone.cyber_dhs_gov.zone_id
+}
+
+
+resource "aws_route53_record" "crossfeed_integration_AAAA" {
+  provider = aws.route53resourcechange
+
+  alias {
+    name                   = "d-sl8v3ffkci.execute-api.us-east-1.amazonaws.com."
+    evaluate_target_health = false
+    zone_id                = var.api_gateway_zone_id
+  }
+  name    = "integration.crossfeed.${aws_route53_zone.cyber_dhs_gov.name}"
+  type    = "AAAA"
+  zone_id = aws_route53_zone.cyber_dhs_gov.zone_id
+}
+
+resource "aws_route53_record" "crossfeed_integration_digicert_letsencrypt_CAA" {
+  provider = aws.route53resourcechange
+
+  name = "integration.crossfeed.${aws_route53_zone.cyber_dhs_gov.name}"
+  records = [
+    "0 issue \"digicert.com\"",
+    "0 issue \"letsencrypt.org\"",
+  ]
+  ttl     = 3600
+  type    = "CAA"
+  zone_id = aws_route53_zone.cyber_dhs_gov.zone_id
+}
+
+resource "aws_route53_record" "crossfeed_integration_acme_TXT" {
+  provider = aws.route53resourcechange
+
+  name = "_acme-challenge.integration.crossfeed.${aws_route53_zone.cyber_dhs_gov.name}"
+  records = [
+    "HtrLpSbDjNcA9ZfrEw41G78bco0lZz1AxaLNgR7YmWs",
+  ]
+  ttl     = 3000
+  type    = "TXT"
+  zone_id = aws_route53_zone.cyber_dhs_gov.zone_id
+}
+
+# ------------------------------------------------------------------------------
+# Integration API entries
+# ------------------------------------------------------------------------------
+
+resource "aws_route53_record" "crossfeed_integration_api_A" {
+  provider = aws.route53resourcechange
+
+  alias {
+    name                   = "d-3kn94fjcb8.execute-api.us-east-1.amazonaws.com."
+    evaluate_target_health = false
+    zone_id                = var.api_gateway_zone_id
+  }
+  name    = "api.integration.crossfeed.${aws_route53_zone.cyber_dhs_gov.name}"
+  type    = "A"
+  zone_id = aws_route53_zone.cyber_dhs_gov.zone_id
+}
+
+resource "aws_route53_record" "crossfeed_integration_api_AAAA" {
+  provider = aws.route53resourcechange
+
+  alias {
+    name                   = "d-3kn94fjcb8.execute-api.us-east-1.amazonaws.com."
+    evaluate_target_health = false
+    zone_id                = var.api_gateway_zone_id
+  }
+  name    = "api.integration.crossfeed.${aws_route53_zone.cyber_dhs_gov.name}"
+  type    = "AAAA"
+  zone_id = aws_route53_zone.cyber_dhs_gov.zone_id
+}
+
+resource "aws_route53_record" "crossfeed_integration_api_TXT" {
+  provider = aws.route53resourcechange
+
+  name = "_acme-challenge.api.integration.crossfeed.${aws_route53_zone.cyber_dhs_gov.name}"
+  records = [
+    "CtK30gpf_LPEfeaCkm1Ynae9qUlJCQWnYGSWGyHU8bc",
+  ]
+  ttl     = 3000
+  type    = "TXT"
+  zone_id = aws_route53_zone.cyber_dhs_gov.zone_id
+}
+
+resource "aws_route53_record" "crossfeed_integration_api_digicert_letsencrypt_CAA" {
+  provider = aws.route53resourcechange
+
+  name = "api.integration.crossfeed.${aws_route53_zone.cyber_dhs_gov.name}"
+  records = [
+    "0 issue \"digicert.com\"",
+    "0 issue \"letsencrypt.org\"",
+  ]
+  ttl     = 3600
+  type    = "CAA"
+  zone_id = aws_route53_zone.cyber_dhs_gov.zone_id
+}
+
+# ------------------------------------------------------------------------------
 # Staging API entries
 # ------------------------------------------------------------------------------
 
@@ -334,6 +445,56 @@ resource "aws_route53_record" "crossfeed_staging_cd_api_AAAA" {
   }
   name    = "api.staging-cd.crossfeed.${aws_route53_zone.cyber_dhs_gov.name}"
   type    = "AAAA"
+  zone_id = aws_route53_zone.cyber_dhs_gov.zone_id
+}
+
+resource "aws_route53_record" "crossfeed_api_staging_cd_TXT" {
+  provider = aws.route53resourcechange
+
+  name = "_acme-challenge.api.staging-cd.crossfeed.${aws_route53_zone.cyber_dhs_gov.name}"
+  records = [
+    "b46k-0MntwazFRg_hz4f1zOHuboertdcrb0CSd-u9kQ",
+  ]
+  ttl     = 3000
+  type    = "TXT"
+  zone_id = aws_route53_zone.cyber_dhs_gov.zone_id
+}
+
+resource "aws_route53_record" "api_crossfeed_staging_digicert_letsencrypt_CAA" {
+  provider = aws.route53resourcechange
+
+  name = "api.staging-cd.crossfeed.${aws_route53_zone.cyber_dhs_gov.name}"
+  records = [
+    "0 issue \"digicert.com\"",
+    "0 issue \"letsencrypt.org\"",
+  ]
+  ttl     = 3600
+  type    = "CAA"
+  zone_id = aws_route53_zone.cyber_dhs_gov.zone_id
+}
+
+resource "aws_route53_record" "crossfeed_staging_cd_TXT" {
+  provider = aws.route53resourcechange
+
+  name = "_acme-challenge.staging-cd.crossfeed.${aws_route53_zone.cyber_dhs_gov.name}"
+  records = [
+    "Yu58IyT5wJzQPL0NrwB2Ne4203UXetJKbALe64qk9gg",
+  ]
+  ttl     = 3000
+  type    = "TXT"
+  zone_id = aws_route53_zone.cyber_dhs_gov.zone_id
+}
+
+resource "aws_route53_record" "crossfeed_staging_digicert_letsencrypt_CAA" {
+  provider = aws.route53resourcechange
+
+  name = "staging-cd.crossfeed.${aws_route53_zone.cyber_dhs_gov.name}"
+  records = [
+    "0 issue \"digicert.com\"",
+    "0 issue \"letsencrypt.org\"",
+  ]
+  ttl     = 3600
+  type    = "CAA"
   zone_id = aws_route53_zone.cyber_dhs_gov.zone_id
 }
 

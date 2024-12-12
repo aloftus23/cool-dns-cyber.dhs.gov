@@ -12,12 +12,17 @@ terraform {
     # for more information about the changes in v4.9 and
     # https://www.hashicorp.com/blog/terraform-aws-provider-4-0-refactors-s3-bucket-resource
     # for more information about the S3 bucket refactor.
+    #
+    # Version 5.20 of the Terraform AWS provider is the first version
+    # to offer the aws_sesv2_account_vdm_attributes resource, which we
+    # require here.
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.9"
+      version = "~> 5.20"
     }
   }
 
-  # We want to hold off on 1.1 or higher until we have tested it.
-  required_version = "~> 1.0"
+  # Version 1.1 of Terraform is the first version to support the
+  # nullable key in variable definitions.
+  required_version = "~> 1.1"
 }
